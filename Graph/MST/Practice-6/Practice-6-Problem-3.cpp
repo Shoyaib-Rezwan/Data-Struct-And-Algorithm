@@ -1,4 +1,4 @@
-
+// same solution as the previous problem.
 #include <bits/stdc++.h>
 using namespace std;
 #define pii pair<int, int>
@@ -74,93 +74,74 @@ int main()
     {
         int u, v, w;
         cin >> u >> v >> w;
-        edges.push_back({u - 1, v - 1, w, i});
+        edges.push_back({u, v, w, i});
     }
     sort(edges.begin(), edges.end(), comparator());
-    vector<string> result(m, "none"); // initialize every edge to none.
-    // check whether an edge can be present in atleast one MST
+    vector<string> result(m, "pseudo-critical");
+    // group the edges based on similar weights. Then find out the edges that connects 2 different components only by themselves. They will be the critical edges.
     Disjoint_set dsu(n);
     int i = 0;
     while (i < m)
     {
-        int j = i;
-        // find the range of indices i to j for which all edges are of the same weight
-        while (j < m && edges[j].w == edges[i].w)
+        int j = i + 1;
+        while (j < m && edges[i].w == edges[j].w)
         {
             j++;
         }
-        // now check which edges can be added. Modify their catagory to 'ateast one'
-        for (int k = i; k < j; k++)
-        {
-            int u = edges[k].u, v = edges[k].v, index = edges[k].index;
-            if (dsu.find(u) != dsu.find(v))
-            {
-                result[index] = "atleast one";
-            }
-        }
-        // after checking unite all the vertices connected by this particular group of vertices
-        for (int k = i; k < j; k++)
-        {
-            int u = edges[k].u, v = edges[k].v;
-            if (dsu.find(u) != dsu.find(v))
-            {
-                dsu.unite(u, v);
-            }
-        }
-        i = j;
-    }
-
-    // among the edges there are some, which are present in all msts. find them
-    dsu.clear();
-    i = 0;
-    while (i < m)
-    {
-        int j = i;
-        // find the range of indices i to j for which all edges are of the same weight
-        while (j < m && edges[j].w == edges[i].w)
-        {
-            j++;
-        }
-        map<pii, int> edgeCount;           // counts how many similar weight edge connects {rootu,rootv}
-        map<pii, vector<int>> edgeIndices; // stores similar weight edge that connects {rootu,rootv}
-        // here rootu and rootv are representatives of 2 previously components. We need only one edge to connect the two components. If there are multiple edges, then it's a must that all these edges are not a must to present in all msts.
+        map<pii, int> edgeCount;
+        map<pii, vector<int>> edgeIndices;
         for (int k = i; k < j; k++)
         {
             int u = edges[k].u, v = edges[k].v, index = edges[k].index;
             int rootu = dsu.find(u), rootv = dsu.find(v);
             if (rootu != rootv)
             {
-                // sort rootu and rootv otherwise the set may treat multiple same pairs as different keys
                 if (rootu > rootv)
                     swap(rootu, rootv);
                 edgeCount[{rootu, rootv}]++;
                 edgeIndices[{rootu, rootv}].push_back(index);
             }
         }
-        // track all the same weight edges that solely connects two diffrent components
-        for (auto entity : edgeCount)
+        for (auto &entity : edgeCount)
         {
             pii root = entity.first;
             int count = entity.second;
             if (count == 1)
             {
-                result[edgeIndices[root][0]] = "any";
+                result[edgeIndices[root][0]] = "critical";
             }
         }
-        // finally connect the vertices
         for (int k = i; k < j; k++)
         {
             int u = edges[k].u, v = edges[k].v;
-            int rootu = dsu.find(u), rootv = dsu.find(v);
-            if (rootu != rootv)
-            {
-                dsu.unite(u, v);
-            }
+            dsu.unite(u, v);
         }
         i = j;
     }
+    vector<int> tempResults;
+    // collect the critical edges
     for (int i = 0; i < m; i++)
     {
-        cout << result[i] << '\n';
+        if (result[i] == "critical")
+            tempResults.push_back(i);
     }
+    cout << "Critical edges: [";
+    for (int x : tempResults)
+    {
+        cout << x << ' ';
+    }
+    cout << "]\n";
+    tempResults.clear();
+    // collect the pseudocritical edges
+    for (int i = 0; i < m; i++)
+    {
+        if (result[i] != "critical")
+            tempResults.push_back(i);
+    }
+    cout << "Pseudo critical edges: [";
+    for (int x : tempResults)
+    {
+        cout << x << ' ';
+    }
+    cout << "]\n";
 }
