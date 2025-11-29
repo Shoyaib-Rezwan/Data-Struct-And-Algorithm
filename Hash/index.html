@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hash Table Comparison</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th,
+      td {
+        border: 1px solid #333;
+        padding: 8px;
+        text-align: center;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      .left {
+        text-align: left;
+      }
+      input {
+        border: 0px;
+        text-align: center;
+        width: 80%;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>
+      For load factor
+      <span> <input style="width: 50px; font-weight: bold; font-size: 15px;" /></span>
+    </h3>
+
+    <table>
+      <tr>
+        <th rowspan="3" class="left">Method</th>
+        <th colspan="5">Hash1 Function</th>
+        <th colspan="5">Hash2 Function</th>
+      </tr>
+      <tr>
+        <th rowspan="2"># of Collisions during insertion</th>
+        <th colspan="2">Before Deletion</th>
+        <th colspan="2">After Deletion</th>
+        <th rowspan="2"># of Collisions during insertion</th>
+        <th colspan="2">Before Deletion</th>
+        <th colspan="2">After Deletion</th>
+      </tr>
+      <tr>
+        <th>Avg Search Time</th>
+        <th>Avg Probes</th>
+        <th>Avg Search Time</th>
+        <th>Avg Probes</th>
+        <th>Avg Search Time</th>
+        <th>Avg Probes</th>
+        <th>Avg Search Time</th>
+        <th>Avg Probes</th>
+      </tr>
+      <tr>
+        <td class="left">Separate Chaining with balanced BST</td>
+        <td><input /></td>
+        <td><input /></td>
+        <td>N/A</td>
+        <td><input /></td>
+        <td>N/A</td>
+        <td><input /></td>
+        <td><input /></td>
+        <td>N/A</td>
+        <td><input /></td>
+        <td>N/A</td>
+      </tr>
+      <tr>
+        <td class="left">Linear Probing with Step Adjustment</td>
+        <td><input /></td>
+        <td><input /></td>
+        <td><input /></td>
+        <td><input /></td>
+        <td><input /></td>
+        <td><input /></td>
+        <td><input /></td>
+        <td><input /></td>
+        <td><input /></td>
+        <td><input /></td>
+      </tr>
+      <tr>
+        <td class="left">Double Hashing</td>
+        <td><input /></td>
+        <td><input /></td>
+        <td><input /></td>
+        <td><input /></td>
+        <td><input /></td>
+        <td><input /></td>
+        <td><input /></td>
+        <td><input /></td>
+        <td><input /></td>
+        <td><input /></td>
+      </tr>
+    </table>
+  </body>
+</html>
